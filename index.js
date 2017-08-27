@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const jsreport = require('jsreport-core')()
+const pdf = require('./pdf');
 
 const app = express();
 
@@ -22,18 +22,4 @@ app.get('/', (request, response) => {
   });
 });
 
-app.post('/pdf', (req, res) => {
-    jsreport.init().then(function () {     
-    return jsreport.render({
-        template: {
-            content: req.body.content,
-            engine: 'jsrender',
-            recipe: 'phantom-pdf'
-            }
-        }).then(function(resp) {
-        console.log(resp.content.toString())
-    });
-    }).catch(function(e) {
-        console.log(e)
-    })
-})
+app.post('/pdf', pdf)
