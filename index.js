@@ -22,4 +22,6 @@ app.get('/', (request, response) => {
   });
 });
 
-app.post('/pdf', pdf)
+app.post('/pdf', pdf);
+
+app.use('/PDF', express.static('PDF'));
