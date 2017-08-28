@@ -1,21 +1,21 @@
-const jsreport = require('jsreport-core')()
+const pdf = require('html-pdf');
 
 module.exports = (req, res) => {
-  jsreport.init().then(function () {     
-    
-    jsreport.render({
-      template: {
-        content: req.body.content,
-        engine: 'jsrender',
-        recipe: 'phantom-pdf'
-      }
-    }).then((resp) => {
-      res.status(200).json({
-        data: resp.content.toString()
-      })
-    }).catch(function(e) {
-      console.log(e)
-    })
+    var html = req.body.content;
+    var options = {format: 'Letter', orientation: 'portrait', border: {
+        "top": "2cm",
+        "right": "1.5cm",
+        "bottom": "2cm",
+        "left": "1.5cm"
+    }};
 
-  })
+    pdf.create(html, options).toFile('PDF/prova.pdf', function(err, response){
+        res.status(200).json({
+            data: {
+                name: 'PDF Generated!'
+            }
+        });
+    });
+
+
 }
